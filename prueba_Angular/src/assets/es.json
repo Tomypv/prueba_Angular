@@ -1,0 +1,16 @@
+{
+    "APP": {
+      "TITLE": "Mi Aplicación Angular",
+      "WELCOME": "¡Bienvenido a la aplicación de prueba!"
+    },
+    "SONGS": {
+      "TITLE": "Canciones",
+      "DESCRIPTION": "Lista de canciones disponibles"
+    },
+    "BUTTONS": {
+      "ADD": "Añadir",
+      "DELETE": "Eliminar",
+      "SAVE": "Guardar"
+    }
+  }
+  
