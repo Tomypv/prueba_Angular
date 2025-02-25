@@ -1,0 +1,1 @@
+Carpeta para artistas (No necesario para la prueba).
