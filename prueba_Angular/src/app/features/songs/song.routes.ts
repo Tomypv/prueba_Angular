@@ -6,6 +6,6 @@ import { SongFormComponent } from './components/song-form/song-form.component';
 export const SONGS_ROUTES: Routes = [
   { path: '', component: SongListComponent },
   { path: 'new', component: SongFormComponent },
-  { path: ':id', component: SongDetailComponent },
+  { path: ':id', component: SongDetailComponent, outlet: 'detail' },
   { path: 'edit/:id', component: SongFormComponent }
 ];

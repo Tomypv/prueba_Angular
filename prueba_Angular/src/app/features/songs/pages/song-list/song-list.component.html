@@ -2,7 +2,7 @@
 <div class="section-header">
     <h2 class="page-title">{{ pageTitle }}</h2>
     <div class="section-divider"></div>
-  </div>
+</div>
 
 <!-- Contenedor principal -->
 <ng-container *ngIf="(songs$ | async) as songs; else loadingTemplate">
@@ -10,7 +10,7 @@
       <!-- Tarjetas de canciones -->
       <mat-card class="song-card"
                 *ngFor="let song of songs; trackBy: trackBySongId"
-                [routerLink]="['/songs', song.id]"
+                [routerLink]="[{ outlets: { detail: [song.id] } }]"
       >
         <!-- Imagen asociada (poster) -->
         <img mat-card-image
@@ -35,7 +35,7 @@
     >
       <mat-icon>add</mat-icon>
     </button>
-  </ng-container>
+</ng-container>
   
   <!-- Template para mostrar el spinner mientras no se tienen datos -->
   <ng-template #loadingTemplate>

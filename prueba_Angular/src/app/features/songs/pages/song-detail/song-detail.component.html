@@ -1,0 +1,48 @@
+<!-- Overlay principal -->
+<div class="overlay" [class.closing]="closing" (click)="closeOverlay()">
+    <div class="detail-container" (click)="$event.stopPropagation()">    
+        <ng-container *ngIf="song$ | async as song">
+            <!-- 1) Estado Loading: song === null -->
+            <ng-container *ngIf="song === null; else contentTemplate">
+                <app-loading [loading]="true" [diameter]="60"></app-loading>
+            </ng-container>
+        
+            <!-- 2) Estado Data: song es un objeto Song -->
+            <ng-template #contentTemplate>
+                <ng-container *ngIf="song !== undefined; else notFoundTemplate">
+                    <mat-card class="detail-card">
+                        <img mat-card-image
+                            [src]="song.poster"
+                            alt="Poster de la canción"
+                            class="detail-image" />
+                
+                        <mat-card-content>
+                            <h2 class="detail-title">{{ song.title }}</h2>
+                            <p class="detail-artist">Artista: {{ song.artist }}</p>
+                            <p class="detail-year">Año: {{ song.year }}</p>
+                            <p class="detail-rating">Rating: {{ song.rating }}</p>
+                            <p class="detail-genre">Género(s): {{ song.genre.join(', ') }}</p>
+                            <p class="detail-duration">Duración -> {{ song.duration }}</p>
+                        </mat-card-content>
+                        
+                
+                        <!-- Botones flotantes para Editar y Eliminar -->
+                        <mat-card-actions class="detail-actions">
+                            <button mat-mini-fab color="accent" [routerLink]="['/songs', 'edit', song.id]">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-mini-fab color="warn" (click)="deleteSong(song.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </ng-container>
+            </ng-template>
+        
+            <!-- 3) Estado Not Found: song === undefined -->
+            <ng-template #notFoundTemplate>
+                <p class="no-data">No se encontró la canción.</p>
+            </ng-template>
+        </ng-container>
+    </div>
+</div>
