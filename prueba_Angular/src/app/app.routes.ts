@@ -16,5 +16,11 @@ export const APP_ROUTES: Routes = [
       path: 'companies',
       loadChildren: () => import('./features/companies/company.routes')
         .then(m => m.COMPANY_ROUTES)
+    },
+    {
+        path: '**',
+        // Carga directa del componente NotFound
+        loadComponent: () => import('./shared/not-found/not-found.component')
+          .then(c => c.NotFoundComponent)
     }
   ];
