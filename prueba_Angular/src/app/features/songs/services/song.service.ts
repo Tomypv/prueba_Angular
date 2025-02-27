@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Song } from './song.interface';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Song } from '../models/song.interface';
+import { Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 
 @Injectable({
@@ -19,7 +19,9 @@ export class SongService {
    * @returns Observable con la lista de canciones
    */
   getSongs(): Observable<Song[]> {
-    return this.http.get<Song[]>(this.baseUrl);
+    return this.http.get<Song[]>(this.baseUrl).pipe(
+      delay(1500) // Demora de 1,5 segundos en el desarrollo para mostrar el spinner
+    );
   }
 
   /**
