@@ -88,22 +88,42 @@ export class SongService {
 
   /**
    * Crea una nueva canción
-   * @param song Datos de la canción a crear
+   * @param newSong Datos de la canción a crear
    * @returns Observable con la canción creada
    */
-  createSong(song: Song): Observable<Song> {
-    return this.http.post<Song>(this.baseUrl, song);
+  createSong(newSong: Partial<Song>): Observable<Song> {
+    return this.http.post<Song>(this.baseUrl, newSong).pipe(
+      tap(created => {
+        // Actualizamos la lista local
+        const current = this.songsSubject.value || [];
+        this.songsSubject.next([...current, created]);
+      })
+    );
   }
+
 
   /**
    * Actualiza una canción existente
    * @param id ID de la canción a actualizar
-   * @param song Datos de la canción actualizados
+   * @param changes Cambios a aplicar
    * @returns Observable con la canción actualizada
    */
-  updateSong(id: number, song: Song): Observable<Song> {
-    return this.http.put<Song>(`${this.baseUrl}/${id}`, song);
+  updateSong(id: number, changes: Partial<Song>): Observable<Song> {
+    return this.http.patch<Song>(`${this.baseUrl}/${id}`, changes).pipe(
+      tap(updated => {
+        // Reemplazamos la canción en la lista local
+        const current = this.songsSubject.value || [];
+        const index = current.findIndex(s => s.id === id);
+        if (index !== -1) {
+          const updatedList = [...current];
+          updatedList[index] = updated;
+          this.songsSubject.next(updatedList);
+        }
+      })
+    );
   }
+ 
+
 
   /**
    * Elimina una canción

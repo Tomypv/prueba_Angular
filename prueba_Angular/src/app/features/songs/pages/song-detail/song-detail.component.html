@@ -28,7 +28,7 @@
                 
                         <!-- Botones flotantes para Editar y Eliminar -->
                         <mat-card-actions class="detail-actions">
-                            <button mat-mini-fab color="accent" [routerLink]="['/songs', 'edit', song.id]">
+                            <button mat-mini-fab color="accent" (click)="editSong(song.id)">
                                 <mat-icon>edit</mat-icon>
                             </button>
                             <button mat-mini-fab color="warn" (click)="deleteSong(song.id)">

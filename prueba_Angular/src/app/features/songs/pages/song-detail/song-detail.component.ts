@@ -83,4 +83,22 @@ export class SongDetailComponent implements OnInit {
         this.closeOverlay();
     });
   }
+
+  /**
+   * Navega a la página de edición
+   */
+  editSong(id: number): void {
+    if (!id) return;
+
+
+
+    this.closeOverlay();
+    
+    
+    setTimeout(() => {
+      this.router.navigate([{ outlets: { primary: ['songs', 'edit', id], detail: null } }]);
+    }, 300);
+
+  }
+
 }
