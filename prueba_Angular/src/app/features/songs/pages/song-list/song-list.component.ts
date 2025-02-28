@@ -39,12 +39,10 @@ export class SongListComponent implements OnInit {
 
   constructor( private songService: SongService ) {}
 
-  /**
-   * startWith(null) emite null de inmediato, lo que indica que aún no hay datos.
-   * Cuando el servicio devuelva las canciones, se reemplaza null por el array de canciones.
-   */
   ngOnInit(): void {
-    this.songs$ = this.songService.getSongs().pipe(startWith(null));
+    // Cargamos las canciones si no las habíamos cargado antes
+    this.songService.loadSongs(); 
+    this.songs$ = this.songService.getSongs();
   }
 
   /**

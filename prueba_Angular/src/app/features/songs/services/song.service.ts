@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Song } from '../models/song.interface';
 import { ArtistService } from '../../artists/services/artist.service';
 import { Artist } from 'app/features/artists/models/artist.interface';
-import { Observable, forkJoin } from 'rxjs';
+import { BehaviorSubject, Observable, forkJoin, tap } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { map, switchMap } from 'rxjs/operators';
@@ -33,19 +33,23 @@ export class SongService {
 
   private baseUrl = `${environment.apiUrl}/songs`;
 
+  // Estado local de canciones
+  private songsSubject = new BehaviorSubject<Song[] | null>(null);
+  songs$ = this.songsSubject.asObservable();
+
   constructor(
     private http: HttpClient,
     private artistService: ArtistService  
   ) {}
 
   /**
-   * Obtiene todas las canciones
-   * @returns Observable con la lista de canciones
+   * Carga todas las canciones desde el servidor y las almacena en el estado local
+   * @returns void
    */
-  getSongs(): Observable<Song[]> {
-    return this.http.get<RawSong[]>(this.baseUrl).pipe(
+  loadSongs(): void {
+    this.http.get<RawSong[]>(`${this.baseUrl}`).pipe(
       switchMap(rawSongs => {
-        // Se mapea cada RawSong a un Observable<Song>, resolviendo el artista
+        // Mapeo ID de artista -> nombre, formateo de duración, etc.
         const songObservables = rawSongs.map(raw => {
           return this.artistService.getById(raw.artist).pipe(
             map(artist => this.mapRawSongToSong(raw, artist))
@@ -53,8 +57,18 @@ export class SongService {
         });
         return forkJoin(songObservables);
       }),
-      delay(1500) // Demora de 1,5 segundos en el desarrollo para mostrar el spinner
-    );
+      delay(2000) // Simulamos un retraso de 2 segundos para ver el loading (se desactiva en producción)
+    ).subscribe(songs => {
+      this.songsSubject.next(songs); // Emitimos el array transformado
+    });
+  }
+
+  /**
+   * Obtiene todas las canciones desde el estado local (ya las cargamos con loadSongs)
+   * @returns Observable con la lista de canciones
+   */
+  getSongs(): Observable<Song[] | null> {
+    return this.songs$;
   }
 
   /**
@@ -97,7 +111,16 @@ export class SongService {
    * @returns Observable que se completa cuando la canción se elimina
    */
   deleteSong(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
+      tap(() => {
+        // Actualizamos la lista local eliminando el song con ese id
+        const currentSongs = this.songsSubject.value;
+        if (currentSongs) { // Solo si currentSongs no es null
+          const updatedSongs = currentSongs.filter(song => song.id !== id);
+          this.songsSubject.next(updatedSongs);
+        }
+      })
+    );
   }
 
   /**
