@@ -1,0 +1,94 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s forwards;
+  }
+
+  .overlay.closing {
+    animation: fadeOut 0.3s forwards;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes fadeOut {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  .detail-container {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    margin: 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .detail-container.closing {
+    animation: scaleOut 0.3s ease forwards;
+  }
+
+  @keyframes scaleIn {
+    0%   { transform: scale(0.9); opacity: 0.5; }
+    100% { transform: scale(1);   opacity: 1; }
+  }
+  
+  @keyframes scaleOut {
+    0%   { transform: scale(1);   opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0; }
+  }
+  
+  .detail-card {
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    animation: scaleIn 0.3s ease forwards;
+  }
+  
+  .detail-image {
+    height: 300px;
+    object-fit: cover;
+    background-color: #f0f0f0;
+  }
+  
+  .detail-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 8px 0;
+  }
+  
+  .detail-year,
+  .detail-rating,
+  .detail-genre,
+  .detail-artist,
+  .detail-duration {
+    margin: 4px 0;
+    color: #555;
+  }
+  
+  /* Botones flotantes */
+  .detail-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin: 16px;
+  }
+  
+  /* Mensaje no-data */
+  .no-data {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-top: 40px;
+  }
+  

@@ -1,0 +1,101 @@
+// Definición de variables
+$bg-color: #f0f2f5;
+$toolbar-bg: #acd6f5;
+$sidenav-bg: #d6eaf8;
+$sidenav-border: #e0e0e0;
+$accent-color: #1abc9c;
+$text-color: #333;
+$font-family: 'Poppins', sans-serif;
+
+// Estilos globales
+:host {
+  display: block;
+  font-family: $font-family;
+  color: $text-color;
+  background-color: $bg-color;
+  height: 100vh;
+}
+
+
+.sidenav-container {
+  height: 100%;
+}
+
+
+.toolbar {
+  background-color: $toolbar-bg;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-title {
+  margin-left: 16px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+// Botón de menú
+.menu-button {
+  margin-right: 8px;
+  background-color: transparent;
+  color: #555;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: transparent;
+    box-shadow: none;
+    color: #555;
+  }
+}
+
+// Estilos para el sidenav y navegación interna
+.sidenav {
+  width: 250px;
+  background-color: $sidenav-bg;
+  border-right: 1px solid $sidenav-border;
+
+  mat-nav-list {
+    a {
+      color: $text-color;
+      transition: background-color 0.3s ease;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+
+      mat-icon {
+        margin-right: 8px;
+      }
+      
+      &:hover,
+      &.active-link {
+        background-color: $accent-color;
+        color: #fff;
+      }
+    }
+  }
+}
+
+// Área de contenido principal
+.content {
+  padding: 16px;
+  min-height: calc(100vh - 64px);
+}
+
+// Adaptabilidad para pantallas pequeñas (Como tablets y móviles)
+@media (max-width: 768px) {
+  .app-title {
+    font-size: 1.25rem;
+  }
+  .content {
+    padding: 8px;
+  }
+}

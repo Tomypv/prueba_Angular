@@ -1,0 +1,78 @@
+<mat-card class="song-form-card">
+  <mat-card-title>
+    {{ isEditMode ? 'Editar Canción' : 'Crear Nueva Canción' }}
+  </mat-card-title>
+
+  <mat-card-content>
+    <form [formGroup]="songForm" (ngSubmit)="onSubmit()" class="song-form">
+      <!-- Título -->
+      <mat-form-field appearance="outline">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="title" />
+        <mat-error *ngIf="songForm.get('title')?.invalid">Título es requerido</mat-error>
+      </mat-form-field>
+
+      <!-- Año -->
+      <mat-form-field appearance="outline">
+        <mat-label>Año</mat-label>
+        <input matInput type="number" formControlName="year" />
+      </mat-form-field>
+
+      <!-- Géneros (Multiple Select) -->
+      <mat-form-field appearance="outline">
+        <mat-label>Géneros</mat-label>
+        <mat-select formControlName="genre" multiple>
+          <mat-option
+            *ngFor="let g of availableGenres" [value]="g">
+            {{ g }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Rating -->
+      <mat-form-field appearance="outline">
+        <mat-label>Rating</mat-label>
+        <input matInput type="number" formControlName="rating" />
+      </mat-form-field>
+
+      <!-- Duración -->
+      <mat-form-field appearance="outline">
+        <mat-label>Duración (mm:ss)</mat-label>
+        <input matInput type="text" formControlName="duration" placeholder="mm:ss" />
+        <mat-error *ngIf="songForm.get('duration')?.invalid">
+          Formato inválido. Utiliza mm:ss.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Artista -->
+      <mat-form-field appearance="outline">
+        <mat-label>Artista</mat-label>
+        <input matInput formControlName="artist" />
+      </mat-form-field>
+
+      <!-- Poster -->
+      <mat-form-field appearance="outline">
+        <mat-label>URL de la imagen</mat-label>
+        <input matInput formControlName="poster" />
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="songForm.invalid"
+        >
+          {{ isEditMode ? 'Guardar Cambios' : 'Crear Canción' }}
+        </button>
+        <button
+          mat-button
+          color="warn"
+          (click)="router.navigate(['/songs'])"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

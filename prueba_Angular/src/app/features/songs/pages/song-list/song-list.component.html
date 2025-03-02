@@ -1,0 +1,49 @@
+<!-- Encabezado con el título y una línea divisoria -->
+<div class="section-header">
+    <h2 class="page-title">{{ pageTitle }}</h2>
+    <div class="section-divider"></div>
+</div>
+
+<!-- Contenedor principal -->
+<ng-container *ngIf="(songs$ | async) as songs; else loadingTemplate">
+    <div *ngIf="songs && songs.length > 0; else noData" class="songs-container">
+      <!-- Tarjetas de canciones -->
+      <mat-card class="song-card"
+                *ngFor="let song of songs; trackBy: trackBySongId"
+                [routerLink]="[{ outlets: { detail: [song.id] } }]"
+      >
+        <!-- Imagen asociada (poster) -->
+        <img mat-card-image
+             [src]="song.poster"
+             alt="Poster de la canción"
+             class="song-image"
+        />
+  
+        <!-- Contenido de la tarjeta -->
+        <mat-card-content>
+          <h3 class="song-title">{{ song.title }} ({{ song.artist }})</h3>
+          <p class="song-year">Año: {{ song.year }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <!-- Botón flotante para añadir nuevas canciones -->
+    <button mat-fab 
+            color="accent" 
+            class="fab-button" 
+            [routerLink]="['/songs', 'new']"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+</ng-container>
+  
+  <!-- Template para mostrar el spinner mientras no se tienen datos -->
+  <ng-template #loadingTemplate>
+    <app-loading [loading]="true" [diameter]="60"></app-loading>
+  </ng-template>
+  
+  <!-- Template para cuando se recibe un array vacío -->
+  <ng-template #noData>
+    <p class="no-data">No hay canciones disponibles.</p>
+  </ng-template>
+  

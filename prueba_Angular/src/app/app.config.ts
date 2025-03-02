@@ -1,13 +1,14 @@
 import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { httpErrorInterceptorFn } from './core/interceptors/http-error.interceptor';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { routes } from './app.routes';
+import { APP_ROUTES } from './app.routes';
 
 import { MatButtonModule } from '@angular/material/button';
 
@@ -19,9 +20,11 @@ export function HttpLoaderFactory(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
-    provideRouter(routes),
+    provideRouter(APP_ROUTES),
     provideAnimations(),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([httpErrorInterceptorFn])
+    ),
     importProvidersFrom(
       MatButtonModule,
 
