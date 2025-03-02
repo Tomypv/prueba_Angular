@@ -13,9 +13,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 
-import { switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-
 @Component({
   selector: 'app-song-form',
   standalone: true,
@@ -39,7 +36,7 @@ export class SongFormComponent implements OnInit {
   isEditMode = false;
   songId!: number;
 
-  // Lista de géneros disponibles (ejemplo); podrías cargarla desde un servicio
+  // Lista de géneros disponibles
   availableGenres: string[] = [
     'Pop',
     'Rock',
@@ -61,11 +58,11 @@ export class SongFormComponent implements OnInit {
     this.songForm = this.fb.group({
       title: ['', Validators.required],
       year: [null, Validators.required],
-      genre: [[]], // array de strings
-      rating: [null],
-      duration: [null],
-      artist: [''],
-      poster: ['']
+      genre: [[], Validators.required],
+      rating: [null, Validators.required],
+      duration: ['', [Validators.required, Validators.pattern(/^\d+:[0-5]\d$/)]], // Formato mm:ss
+      artist: ['', Validators.required],
+      poster: ['', Validators.required]
     });
 
     // Detectar si estamos en modo edición
@@ -85,17 +82,20 @@ export class SongFormComponent implements OnInit {
       });
     }
   }
- 
+
   onSubmit(): void {
+    // Si el formulario es inválido, no hacemos nada
     if (this.songForm.invalid) return;
 
-    const formValue = this.songForm.value as Partial<Song>;
-
+    const formValue = this.songForm.value as Song;
+    formValue.id = 0;
     if (this.isEditMode) {
+      // Modo edición
       this.songService.updateSong(this.songId, formValue).subscribe(() => {
         this.router.navigate(['/songs']);
       });
     } else {
+      // Modo creación
       this.songService.createSong(formValue).subscribe(() => {
         this.router.navigate(['/songs']);
       });

@@ -2,7 +2,7 @@
   <mat-card-title>
     {{ isEditMode ? 'Editar Canción' : 'Crear Nueva Canción' }}
   </mat-card-title>
-  
+
   <mat-card-content>
     <form [formGroup]="songForm" (ngSubmit)="onSubmit()" class="song-form">
       <!-- Título -->
@@ -23,9 +23,7 @@
         <mat-label>Géneros</mat-label>
         <mat-select formControlName="genre" multiple>
           <mat-option
-            *ngFor="let g of availableGenres"
-            [value]="g"
-          >
+            *ngFor="let g of availableGenres" [value]="g">
             {{ g }}
           </mat-option>
         </mat-select>
@@ -39,8 +37,11 @@
 
       <!-- Duración -->
       <mat-form-field appearance="outline">
-        <mat-label>Duración (segundos)</mat-label>
-        <input matInput type="number" formControlName="duration" />
+        <mat-label>Duración (mm:ss)</mat-label>
+        <input matInput type="text" formControlName="duration" placeholder="mm:ss" />
+        <mat-error *ngIf="songForm.get('duration')?.invalid">
+          Formato inválido. Utiliza mm:ss.
+        </mat-error>
       </mat-form-field>
 
       <!-- Artista -->
@@ -51,7 +52,7 @@
 
       <!-- Poster -->
       <mat-form-field appearance="outline">
-        <mat-label>URL del Poster</mat-label>
+        <mat-label>URL de la imagen</mat-label>
         <input matInput formControlName="poster" />
       </mat-form-field>
 
