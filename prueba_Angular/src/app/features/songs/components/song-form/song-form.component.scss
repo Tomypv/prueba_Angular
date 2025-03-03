@@ -1,0 +1,42 @@
+.song-form-card {
+    max-width: 600px;
+    margin: 32px auto;
+    border-radius: 8px;
+    overflow: hidden;
+  
+    mat-card-title {
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+  }
+  
+  .song-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  
+    .genre-chips-field {
+      mat-chip-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+    }
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  button[mat-raised-button] {
+    min-width: 120px;
+  }
+  

@@ -24,7 +24,10 @@ Cada colección es un array de objetos con campos relevantes para nuestro proyec
       "title": "Who did you think i was",
       "poster": "...",
       "genre": ["Pop", "Rock", "Alternative"],
-      ...
+      "year": 2003,
+      "duration": "3:45",
+      "rating": 4,
+      "artist": 1
     },
     ...
   ],
@@ -32,8 +35,11 @@ Cada colección es un array de objetos con campos relevantes para nuestro proyec
     {
       "id": 1,
       "name": "John Mayer",
-      "bornCity": "Conecticut",
-      ...
+      "bornCity": "Connecticut",
+      "birthdate": "1977-10-16",
+      "img": "...",
+      "rating": 5,
+      "songs": [1, 6]
     },
     ...
   ],
@@ -51,7 +57,7 @@ Cada colección es un array de objetos con campos relevantes para nuestro proyec
 
 ## 3. Inicialización del Servidor de Mock
 
-El servidor de mock se puede iniciar mediante el script definido en el archivo `package.json`. Este script utiliza JSON Server para transformar el archivo `mock.json` en una API REST completa. A continuación, se detalla el proceso de inicio:
+El servidor de mock se puede iniciar mediante el script definido en el archivo `package.json`. Este script ejecuta el server.js, que utiliza JSON Server para transformar el archivo `mock.json` en una API REST completa. A continuación, se detalla el proceso de inicio:
 
 1. Abrir la terminal integrada de Visual Studio Code o una ventana de terminal en el sistema operativo.
 2. Navegar hasta la raíz del proyecto.
